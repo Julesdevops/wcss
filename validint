@@ -47,8 +47,3 @@ validint()
     fi
     return 0
 }
-
-# Input validation
-if validint "$1" "$2" "$3" ; then
-    echo "Input is a valid integer within your constraints."
-fi

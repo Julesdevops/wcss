@@ -1,8 +1,6 @@
 #!/bin/bash
 # valid-date--Validates a date, taking into account leap year rules
 
-. normdate
-
 exceedsDaysInMonth()
 {
     # Given a month name and day number in that month, this function will
@@ -19,7 +17,7 @@ exceedsDaysInMonth()
            * ) echo "$0: Unknown month name $1" >&2
                exit 1
     esac
-    if [ $2 -lt 1 -0 $2 -gt $days ] ; then
+    if [ $2 -lt 1 -o $2 -gt $days ] ; then
         return 1
     else
         return 0  # The day number is valid
@@ -60,7 +58,7 @@ fi
 
 # Normalize date and store the return value to check for errors.
 
-newdate="$(normdate "$@")"
+newdate="$(./normdate "$@")"
 
 if [ $? -eq 1 ] ; then
     exit 1  # Error condition already reported by normdate
@@ -69,9 +67,9 @@ fi
 # Split the normalized date format, where
 #   first word = month, second word = day, third word = year.
 
-month="$echo $newdate | cut -d\ -f1"
-day="$echo $newdate | cut -d\ -f2"
-year="$echo $newdate | cut -d\ -f3"
+month="$(echo $newdate | cut -d\  -f1)"
+day="$(echo $newdate | cut -d\  -f2)"
+year="$(echo $newdate | cut -d\  -f3)"
 
 # Now that we have a normalized date, let's check whether the
 #  day value is legal and valie (e.g., not Jan 36).
